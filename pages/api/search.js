@@ -7,6 +7,7 @@ if (!process.env.OPENAI_API_KEY) {
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
+  temperature: process.env.AI_TEMP ? parseFloat(process.env.AI_TEMP) : 0.7,
 });
 const openai = new OpenAIApi(configuration);
 export default async function handler(req, res) {
@@ -29,7 +30,7 @@ export default async function handler(req, res) {
     });
     // completion.data.choices[0].text
     res.status(200).json({
-      data: completion.data.choices[0].text,
+      data:completion.data.choices[0].text,
       url,
     });
   } else {
