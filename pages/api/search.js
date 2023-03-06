@@ -30,12 +30,12 @@ export default async function handler(req, res) {
       max_tokens: 800,
     });
     // completion.data.choices[0].text
-    // await supabase.from(process.env.SUPABASE_STATS_TABLE).insert({
-    //   url: url,
-    //   content: completion.data.choices[0].text,
-    // });
+    await supabase.from(process.env.SUPABASE_STATS_TABLE).insert({
+      url: url,
+      content: completion.data.choices[0].text,
+    });
     res.status(200).json({
-      data: completion.data.choices,
+      data: completion.data.choices[0].text,
       url,
     });
   } else {
