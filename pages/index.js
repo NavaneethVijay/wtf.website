@@ -11,6 +11,7 @@ import Head from "next/head";
 export default function Home() {
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const [responseUrl, setResponseUrl] = useState("");
   const [message, setMessage] = useState("");
 
@@ -29,8 +30,16 @@ export default function Home() {
         body: JSON.stringify({
           url: value,
         }),
+      }).catch(() => {
+        setHasError(true);
+        setIsLoading(false);
+        setMessage("");
+        setResponseUrl("");
       });
       const { data, url } = await response.json();
+      setIsLoading(false);
+      setMessage(data);
+
       const previewResponse = await fetch(`/api/preview?url=${url}`);
       const { image, title, description, name } = await previewResponse.json();
       const responseMeta = {
@@ -40,8 +49,7 @@ export default function Home() {
         name,
         url,
       };
-      setIsLoading(false);
-      setMessage(data);
+
       setResponseUrl(responseMeta);
     }
   };
@@ -59,18 +67,21 @@ export default function Home() {
         <meta property="og:url" content="/" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="What the website?" />
-        <meta property="og:description" content="Get quick insight of the website you are looking for using open.ai" />
+        <meta
+          property="og:description"
+          content="Get quick insight of the website you are looking for using open.ai"
+        />
         <meta property="og:image" content="/og-image.png" />
       </Head>
       <Header />
       <div className="min-h-screen flex justify-center">
-        <div className="p-4 md:p-10 mt-32 ">
+        <div className="p-4 md:p-10 mt-32 w-full">
           <h1 className="title font-bold text-center text-4xl md:text-6xl mb-8">
             What the Website ?
           </h1>
           <h2 className="font-light text-gray-50  text-center text-xl md:px-2 md:mx-auto md:text-3xl mb-10 md:mb-24">
             Get quick insight of the website you are looking for using
-            <strong>ai</strong>. <br /> No more confusing landing pages !
+            <strong> ai</strong>. <br /> No more confusing landing pages !
           </h2>
           <form
             onSubmit={onsubmitHandler}
@@ -119,35 +130,42 @@ export default function Home() {
               <span>Explain Me</span>
             </button>
           </form>
+          {renderErrorMessage(hasError)}
           <div className="container m-auto py-4 my-4 text-white ">
             {getLoader(isLoading)}
-            {message ? (
-              <div className="flex flex-col md:grid md:grid-cols-6 gap-4">
-                <div className="border p-2 rounded-lg col-span-2">
-                  <img src={responseUrl.image} className="mb-4 w-full" />
-                  <h3 className="text-xl font-bold tracking-tight mb-2">
-                    {responseUrl.title}
-                  </h3>
-                  <p className="font-light mb-4">{responseUrl.description}</p>
-                  <a
-                    className="flex items-end text-orange-200 gap-1 mb-2"
-                    href={responseUrl.url}
-                    target="_blank"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M15.75 2.25H21a.75.75 0 01.75.75v5.25a.75.75 0 01-1.5 0V4.81L8.03 17.03a.75.75 0 01-1.06-1.06L19.19 3.75h-3.44a.75.75 0 010-1.5zm-10.5 4.5a1.5 1.5 0 00-1.5 1.5v10.5a1.5 1.5 0 001.5 1.5h10.5a1.5 1.5 0 001.5-1.5V10.5a.75.75 0 011.5 0v8.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V8.25a3 3 0 013-3h8.25a.75.75 0 010 1.5H5.25z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span>Visit them</span>
-                  </a>
+            {!isLoading && message ? (
+              <div className="flex flex-col md:grid md:grid-cols-6 gap-4 w-full">
+                <div className="col-span-2">
+                  {responseUrl ? (
+                    <div className="border p-2 rounded-lg ">
+                      <img src={responseUrl.image} className="mb-4 w-ful min-w-full" />
+                      <h3 className="text-xl font-bold tracking-tight mb-2">
+                        {responseUrl.title}
+                      </h3>
+                      <p className="font-light mb-4">
+                        {responseUrl.description}
+                      </p>
+                      <a
+                        className="flex items-end text-orange-200 gap-1 mb-2"
+                        href={responseUrl.url}
+                        target="_blank"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M15.75 2.25H21a.75.75 0 01.75.75v5.25a.75.75 0 01-1.5 0V4.81L8.03 17.03a.75.75 0 01-1.06-1.06L19.19 3.75h-3.44a.75.75 0 010-1.5zm-10.5 4.5a1.5 1.5 0 00-1.5 1.5v10.5a1.5 1.5 0 001.5 1.5h10.5a1.5 1.5 0 001.5-1.5V10.5a.75.75 0 011.5 0v8.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V8.25a3 3 0 013-3h8.25a.75.75 0 010 1.5H5.25z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span>Visit them</span>
+                      </a>
+                    </div>
+                  ) : null}
                 </div>
                 <div className="text-lg col-span-3">
                   <Typewriter
@@ -168,6 +186,28 @@ export default function Home() {
   );
 }
 
+/**
+ *
+ * @param {*} hasError
+ * @returns
+ */
+function renderErrorMessage(hasError) {
+  if (hasError) {
+    return (
+      <div>
+        <p className="text-red-500 text-center mt-2">
+          Oops! something wrong while thinking, please try again !
+        </p>
+      </div>
+    );
+  }
+}
+
+/**
+ *
+ * @param {*} isLoading
+ * @returns
+ */
 function getLoader(isLoading) {
   if (isLoading) {
     return (
