@@ -5,7 +5,7 @@ export default function Footer() {
         <span class="text-sm text-gray-500 dark:text-gray-300 sm:text-center">
          Developed by <a href="https://www.navaneethvijay.com/" target="_blank"><strong>NavaneethVijay</strong></a>.
         </span>
-        <div class="flex mt-4 space-x-6 sm:justify-center md:mt-0">
+        <div class="flex mt-4 space-x-6 ustify-center md:mt-0">
 
           <a
             href="https://twitter.com/navaneeth_V29"

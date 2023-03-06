@@ -50,9 +50,17 @@ export default function Home() {
     <div>
       <Head>
         <title>What the Website ?</title>
-        <meta name="title" content="What the website" />
-        <meta name="description" content="Get quick insight of the website you are looking for using open.ai" />
+        <meta name="title" content="What the website?" />
+        <meta
+          name="description"
+          content="Get quick insight of the website you are looking for using open.ai"
+        />
         <meta name="keywords" content="open ai, website summary" />
+        <meta property="og:url" content="/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="What the website?" />
+        <meta property="og:description" content="Get quick insight of the website you are looking for using open.ai" />
+        <meta property="og:image" content="/og-image.png" />
       </Head>
       <Header />
       <div className="min-h-screen flex justify-center">
@@ -87,7 +95,7 @@ export default function Home() {
               value={url}
               className="bg-black border text-white font-light rounded-lg p-2 pl-10 w-full pr-24 py-4"
               type="text"
-              placeholder="https://www.google.com"
+              placeholder="www.google.com"
               onChange={(e) => setUrl(e.target.value)}
             />
             <button
