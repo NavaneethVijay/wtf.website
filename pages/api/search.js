@@ -34,7 +34,7 @@ export default async function handler(req, res) {
         model: process.env.OPENAI_API_MODEL ,
         messages: [
           {
-            role: "system",
+            role: "user",
             content: `summarize ${url}`,
           },
         ],
