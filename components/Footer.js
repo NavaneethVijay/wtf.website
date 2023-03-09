@@ -1,34 +1,34 @@
 export default function Footer() {
   return (
-    <footer class="text-center text-white bg-black container mx-auto px-4">
-      <div class="px-4 py-6 md:flex md:items-center md:justify-between">
-        <span class="text-sm text-gray-500 dark:text-gray-300 sm:text-center">
+    <footer className="text-center text-white bg-black container mx-auto px-4">
+      <div className="px-4 py-6 md:flex md:items-center md:justify-between">
+        <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center">
          Developed by <a href="https://www.navaneethvijay.com/" target="_blank"><strong>NavaneethVijay</strong></a>.
         </span>
-        <div class="flex mt-4 space-x-6 ustify-center md:mt-0">
+        <div className="flex mt-4 space-x-6 ustify-center md:mt-0">
 
           <a
             href="https://twitter.com/navaneeth_V29"
             target="_blank"
-            class="text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            className="text-gray-400 hover:text-gray-900 dark:hover:text-white"
           >
             <svg
-              class="w-5 h-5"
+              className="w-5 h-5"
               fill="currentColor"
               viewBox="0 0 24 24"
               aria-hidden="true"
             >
               <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
             </svg>
-            <span class="sr-only">Twitter page</span>
+            <span className="sr-only">Twitter page</span>
           </a>
           <a
             href="https://github.com/NavaneethVijay"
             target="_blank"
-            class="text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            className="text-gray-400 hover:text-gray-900 dark:hover:text-white"
           >
             <svg
-              class="w-5 h-5"
+              className="w-5 h-5"
               fill="currentColor"
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -39,7 +39,7 @@ export default function Footer() {
                 clip-rule="evenodd"
               />
             </svg>
-            <span class="sr-only">GitHub account</span>
+            <span className="sr-only">GitHub account</span>
           </a>
         </div>
       </div>

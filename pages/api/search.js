@@ -1,16 +1,16 @@
-const { Configuration, OpenAIApi } = require("openai");
-const validUrl = require("valid-url");
+import axios from "axios";
 import { supabase } from "../../lib/supabaseClient";
+const validUrl = require("valid-url");
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Missing Environment Variable OPENAI_API_KEY");
 }
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-  temperature: process.env.AI_TEMP ? parseFloat(process.env.AI_TEMP) : 0.2,
-});
-const openai = new OpenAIApi(configuration);
+const RequestHeader = {
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+}
+
 export default async function handler(req, res) {
   if (req.method === "POST") {
     let { url = null } = req.body;
@@ -24,18 +24,30 @@ export default async function handler(req, res) {
     if (!validUrl.isUri(url)) {
       res.status(400).json({ message: "Invalid url" });
     }
-    const completion = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: `summarize ${url}`,
-      max_tokens: 800,
+
+    const { data: {
+      choices
+    } } = await axios({
+      method: "POST",
+      url: process.env.OPENAI_API_URL,
+      data: {
+        model: process.env.OPENAI_API_MODEL ,
+        messages: [
+          {
+            role: "system",
+            content: `summarize ${url}`,
+          },
+        ],
+      },
+      headers: RequestHeader,
     });
-    // completion.data.choices[0].text
+
     await supabase.from(process.env.SUPABASE_STATS_TABLE).insert({
       url: url,
-      content: completion.data.choices[0].text,
+      content: choices[0].message.content
     });
     res.status(200).json({
-      data: completion.data.choices[0].text,
+      data: choices[0].message.content,
       url,
     });
   } else {

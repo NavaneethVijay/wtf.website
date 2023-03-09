@@ -2,6 +2,7 @@ import { useState } from "react";
 import Typewriter from "typewriter-effect";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import Faq from "../components/Faq/index";
 import Head from "next/head";
 
 /**
@@ -22,6 +23,8 @@ export default function Home() {
     } = event.target;
     if (value) {
       setIsLoading(true);
+      setMessage("");
+      setResponseUrl("");
       const response = await fetch("/api/search", {
         method: "POST",
         headers: {
@@ -49,7 +52,6 @@ export default function Home() {
         name,
         url,
       };
-
       setResponseUrl(responseMeta);
     }
   };
@@ -131,12 +133,12 @@ export default function Home() {
             </button>
           </form>
           {renderErrorMessage(hasError)}
-          <div className="container m-auto py-4 my-4 text-white ">
+          <div className="container m-auto py-4 my-4 text-white md:h-[400px] overflow-hidden">
             {getLoader(isLoading)}
             {!isLoading && message ? (
               <div className="flex flex-col md:grid md:grid-cols-6 gap-4 w-full">
                 <div className="col-span-2">
-                  {responseUrl ? (
+                  { responseUrl ? (
                     <div className="border p-2 rounded-lg ">
                       <img src={responseUrl.image} className="mb-4 w-ful min-w-full" />
                       <h3 className="text-xl font-bold tracking-tight mb-2">
@@ -172,12 +174,15 @@ export default function Home() {
                     options={{
                       strings: message,
                       autoStart: true,
-                      delay: 90,
+                      delay: 60,
                     }}
                   />
                 </div>
               </div>
             ) : null}
+          </div>
+          <div className="text-white max-w-2xl mx-auto">
+            <Faq />
           </div>
         </div>
       </div>
