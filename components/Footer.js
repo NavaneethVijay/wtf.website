@@ -2,10 +2,13 @@ export default function Footer() {
   return (
     <footer className="text-center text-white bg-black container mx-auto px-4">
       <div className="px-4 py-6 md:flex md:items-center md:justify-between">
-        <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center">
-         Developed by <a href="https://www.navaneethvijay.com/" target="_blank"><strong>NavaneethVijay</strong></a>.
+        <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center inline-block mr-2">
+          Powered by <a href="https://www.openai.com/" target="_blank"><strong>OpenAi</strong></a>.
         </span>
-        <div className="flex mt-4 space-x-6 ustify-center md:mt-0">
+        <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center">
+          Developed by <a href="https://www.navaneethvijay.com/" target="_blank"><strong>NavaneethVijay</strong></a>.
+        </span>
+        <div className="flex mt-4 space-x-6 justify-center md:mt-0">
 
           <a
             href="https://twitter.com/navaneeth_V29"

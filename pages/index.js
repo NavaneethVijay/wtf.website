@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from "react";
 import Typewriter from "typewriter-effect";
 import Footer from "../components/Footer";
@@ -13,7 +15,6 @@ export default function Home() {
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [responseUrl, setResponseUrl] = useState("");
   const [message, setMessage] = useState("");
 
   const onsubmitHandler = async (event) => {
@@ -21,10 +22,10 @@ export default function Home() {
     const {
       url: { value = "" },
     } = event.target;
+
     if (value) {
       setIsLoading(true);
       setMessage("");
-      setResponseUrl("");
       const response = await fetch("/api/search", {
         method: "POST",
         headers: {
@@ -37,22 +38,11 @@ export default function Home() {
         setHasError(true);
         setIsLoading(false);
         setMessage("");
-        setResponseUrl("");
       });
+
       const { data, url } = await response.json();
       setIsLoading(false);
       setMessage(data);
-
-      const previewResponse = await fetch(`/api/preview?url=${url}`);
-      const { image, title, description, name } = await previewResponse.json();
-      const responseMeta = {
-        image,
-        title,
-        description,
-        name,
-        url,
-      };
-      setResponseUrl(responseMeta);
     }
   };
 
@@ -78,18 +68,18 @@ export default function Home() {
       <Header />
       <div className="min-h-screen flex justify-center">
         <div className="p-4 md:p-10 mt-32 w-full">
-          <h1 className="title font-bold text-center text-4xl md:text-6xl mb-8">
+          <h1 className="title mx-auto max-w-5xl text-center text-4xl font-bold sm:text-7xl mb-4 md:mb-10">
             What the Website ?
           </h1>
           <h2 className="font-light text-gray-50  text-center text-xl md:px-2 md:mx-auto md:text-3xl mb-10 md:mb-24">
-            Get quick insight of the website you are looking for using
-            <strong> ai</strong>. <br /> No more confusing landing pages !
+            Summarize any website with
+            <strong> AI</strong>. <br />
           </h2>
           <form
             onSubmit={onsubmitHandler}
-            className="flex justify-center m-auto relative md:w-[500px]"
+            className="flex justify-center m-auto relative md:w-[700px]"
           >
-            <div className="absolute top-4 left-2 text-amber-800">
+            <div className="absolute left-[0.5rem] top-[4.3rem] md:top-[4.5rem] text-amber-800">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -103,17 +93,22 @@ export default function Home() {
                 />
               </svg>
             </div>
-            <input
-              name="url"
-              value={url}
-              className="bg-black border text-white font-light rounded-lg p-2 pl-10 w-full pr-24 py-4"
-              type="text"
-              placeholder="www.google.com"
-              onChange={(e) => setUrl(e.target.value)}
-            />
+            <div className="w-full">
+              <label className="mb-6 block text-center text-lg text-gray-500 sm:text-2xl">
+                Copy and paste any website link below
+              </label>
+              <input
+                name="url"
+                value={url}
+                className="bg-black border text-white font-light rounded-lg p-2 pl-10 w-full pr-24 py-4"
+                type="text"
+                placeholder="www.google.com"
+                onChange={(e) => setUrl(e.target.value)}
+              />
+            </div>
             <button
               disabled={isLoading}
-              className="bg-gradient-to-br from-green-500 to-blue-400 hover:bg-gradient-to-bl pl-3 pr-4 py-2 text-amber-50 rounded-lg absolute right-2 top-2 flex gap-2 cursor-pointer"
+              className="bg-gradient-to-br from-green-500 to-blue-400 hover:bg-gradient-to-bl pl-3 pr-4 py-2 text-amber-50 rounded-lg absolute right-[0.7rem] md:right-[0.8rem] top-[3.8rem] md:top-16 flex gap-2 cursor-pointer"
               type="submit"
             >
               <svg
@@ -133,55 +128,21 @@ export default function Home() {
             </button>
           </form>
           {renderErrorMessage(hasError)}
-          <div className="container m-auto py-4 my-4 text-white md:h-[400px] overflow-hidden">
+          <div className="container m-auto py-4 my-4 text-white min-h-[200px] md:h-[400px] overflow-hidden">
             {getLoader(isLoading)}
             {!isLoading && message ? (
-              <div className="flex flex-col md:grid md:grid-cols-6 gap-4 w-full">
-                <div className="col-span-2">
-                  { responseUrl ? (
-                    <div className="border p-2 rounded-lg ">
-                      <img src={responseUrl.image} className="mb-4 w-ful min-w-full" />
-                      <h3 className="text-xl font-bold tracking-tight mb-2">
-                        {responseUrl.title}
-                      </h3>
-                      <p className="font-light mb-4">
-                        {responseUrl.description}
-                      </p>
-                      <a
-                        className="flex items-end text-orange-200 gap-1 mb-2"
-                        href={responseUrl.url}
-                        target="_blank"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          className="w-6 h-6"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M15.75 2.25H21a.75.75 0 01.75.75v5.25a.75.75 0 01-1.5 0V4.81L8.03 17.03a.75.75 0 01-1.06-1.06L19.19 3.75h-3.44a.75.75 0 010-1.5zm-10.5 4.5a1.5 1.5 0 00-1.5 1.5v10.5a1.5 1.5 0 001.5 1.5h10.5a1.5 1.5 0 001.5-1.5V10.5a.75.75 0 011.5 0v8.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V8.25a3 3 0 013-3h8.25a.75.75 0 010 1.5H5.25z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        <span>Visit them</span>
-                      </a>
-                    </div>
-                  ) : null}
-                </div>
-                <div className="text-lg col-span-3">
-                  <Typewriter
-                    options={{
-                      strings: message,
-                      autoStart: true,
-                      delay: 60,
-                    }}
-                  />
-                </div>
+              <div className="text-lg leading-7 col-span-3 mx-auto max-w-3xl px-4">
+                <Typewriter
+                  options={{
+                    strings: message,
+                    autoStart: true,
+                    delay: 20,
+                  }}
+                />
               </div>
             ) : null}
           </div>
-          <div className="text-white max-w-2xl mx-auto">
+          <div className="text-white max-w-3xl mx-auto my-20">
             <Faq />
           </div>
         </div>

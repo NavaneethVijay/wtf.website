@@ -5,8 +5,9 @@
 
 body {
     background: #000;
-    background-image: url('/main-bg.png');
+    background-image: url('/main-bg-1.png');
     font-family: 'Barlow', sans-serif;
+    background-position: bottom left;
 }
 .title {
     background: linear-gradient(90deg,#ff4d4d,#f9cb28);

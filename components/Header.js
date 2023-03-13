@@ -1,9 +1,9 @@
 export default function Header() {
   return (
-    <header className="fixed container m-auto  top-0 left-0 right-0 bg-black text-white flex xs:flex-row justify-between items-center w-full bg-opacity-50 backdrop-filter backdrop-blur-lg py-6 px-6 gap-2">
+    <header className="fixed container m-auto z-10 top-0 left-0 right-0 bg-black text-white flex xs:flex-row justify-between items-center w-full bg-opacity-50 backdrop-filter backdrop-blur-lg py-6 px-6 gap-2">
       <a className="flex space-x-2" href="/">
         <h3 className="sm:text-3xl text-xl font-bold ml-2 tracking-tight">
-         wtf.website
+          wtf.website
         </h3>
       </a>
       <a
