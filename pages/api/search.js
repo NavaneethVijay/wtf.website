@@ -47,10 +47,14 @@ export default async function handler(req, res) {
 
     const summary = await processRequest(payload)
 
-    await supabase.from(process.env.SUPABASE_STATS_TABLE).insert({
-      url: url,
-      content: choices[0].message.content
-    });
+    try {
+      await supabase.from(process.env.SUPABASE_STATS_TABLE).insert({
+        url: url,
+        content: summary
+      });
+    } catch (error) {
+
+    }
 
     res.status(200).json({
       data: summary,
